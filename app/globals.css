@@ -1,31 +1,113 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-base: #F8FAFC;
-    --text-primary: #0F172A;
-    --text-secondary: #334155;
-    --text-muted: #64748B;
-    --border-main: #CBD5E1;
-  }
+/*
+ * Bhaav brand theme.
+ *
+ * The components were written against Tailwind's stock slate / emerald / amber
+ * scales. Instead of touching every class, those scales are re-pointed here at
+ * the Bhaav Collector app's palette (client/app/src/ui/tokens.js):
+ *   emerald → Bhaav green   (#2E7D32 primary, #1B5E20 icon ground, #E8F5E9 surface)
+ *   slate   → neutral with a faint green cast, so greys sit with the brand
+ *   amber   → the saffron used for the Devanagari tagline
+ */
+@theme {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-deva: var(--font-mukta), var(--font-geist), sans-serif;
 
+  --color-emerald-50: #eef6ee;
+  --color-emerald-100: #d8ecd9;
+  --color-emerald-200: #b9dcbb;
+  --color-emerald-300: #8cc390;
+  --color-emerald-400: #5da663;
+  --color-emerald-500: #3f8f45;
+  --color-emerald-600: #2e7d32;
+  --color-emerald-700: #1b5e20;
+  --color-emerald-800: #174e1b;
+  --color-emerald-900: #123f16;
+  --color-emerald-950: #0a2510;
+
+  --color-slate-50: #f7f8f5;
+  --color-slate-100: #eff1ec;
+  --color-slate-200: #e2e6df;
+  --color-slate-300: #ccd2c9;
+  --color-slate-400: #9ba398;
+  --color-slate-500: #6b7368;
+  --color-slate-600: #535a51;
+  --color-slate-700: #3e443d;
+  --color-slate-800: #293028;
+  --color-slate-900: #172017;
+  --color-slate-950: #0d140d;
+
+  --color-amber-50: #fdf5ec;
+  --color-amber-100: #fae6cf;
+  --color-amber-200: #f2cc9f;
+  --color-amber-300: #e7ad6a;
+  --color-amber-400: #d98f3e;
+  --color-amber-500: #c67826;
+  --color-amber-600: #a9621c;
+  --color-amber-700: #8a4f17;
+  --color-amber-800: #6d3e14;
+  --color-amber-900: #553112;
+  --color-amber-950: #2f1a08;
+
+  --color-leaf: #c8e6c9;
+  --color-paper: #f7f8f5;
+}
+
+@layer base {
   html {
     color-scheme: light;
     scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
 
   body {
-    background-color: #F8FAFC;
-    background-image: 
-      linear-gradient(to right, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
-    background-size: 40px 40px;
-    background-position: 0 0;
-    color: #0F172A;
-    font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: var(--color-paper);
+    background-image:
+      radial-gradient(1200px 520px at 85% -120px, rgb(46 125 50 / 0.10), transparent 70%),
+      radial-gradient(900px 420px at -10% 10%, rgb(200 230 201 / 0.35), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--color-slate-900);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(46 125 50 / 0.18);
+    color: var(--color-slate-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-emerald-600);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -36,55 +118,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: var(--color-slate-100);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: var(--color-slate-300);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
-}
-
-/* Leaflet map styles & Tailwind v4 preflight overrides */
-.leaflet-container {
-  font-family: inherit !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: #e2e8f0 !important;
-  position: relative;
-}
-
-.leaflet-div-icon {
-  background: transparent !important;
-  border: none !important;
-}
-
-/* Ensure Tailwind v4 image constraints do not squash or hide Leaflet tiles */
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container .leaflet-tile,
-.leaflet-tile {
-  max-width: none !important;
-  max-height: none !important;
-  width: 256px !important;
-  height: 256px !important;
-  visibility: visible !important;
-}
-
-.leaflet-pane {
-  z-index: 10;
-}
-
-.leaflet-tile-pane {
-  z-index: 5;
-}
-
-.leaflet-marker-pane {
-  z-index: 20;
-}
-
-.leaflet-popup-pane {
-  z-index: 30;
+  background: var(--color-emerald-400);
 }
