@@ -1,24 +1,39 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
-import "leaflet/dist/leaflet.css";
+import { Geist, Geist_Mono, Mukta } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
   display: "swap",
 });
 
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const mukta = Mukta({
+  variable: "--font-mukta",
+  subsets: ["devanagari", "latin"],
+  weight: ["500", "700"],
+  display: "swap",
+});
+
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#1B5E20",
   width: "device-width",
   initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  title: "Bhaav — Field Research × Product Evidence",
+  title: {
+    default: "Bhaav — Field Visit Report, Vasai–Virar",
+    template: "%s · Bhaav",
+  },
   description:
-    "Bhaav is an e-waste transaction and traceability platform designed around field research, fair transactions and formal recycling.",
+    "Bhaav field visit to scrap dealers in Vasai West (29 Sep 2026): ground findings, GPS-stamped photos, recyclers checked against the MPCB register, and references.",
   keywords: [
     "Bhaav",
     "SIH 2026",
@@ -35,7 +50,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Team Error 200" }],
   openGraph: {
-    title: "Bhaav — Field Research × Product Evidence",
+    title: "Bhaav — Field Visit Report, Vasai–Virar",
     description:
       "Understanding how e-waste moves in Vasai–Virar: field observations, local desk research, design mappings, and product evidence.",
     url: "https://bhaav-research.vercel.app",
@@ -45,7 +60,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bhaav — Field Research × Product Evidence",
+    title: "Bhaav — Field Visit Report, Vasai–Virar",
     description:
       "Understanding how e-waste moves in Vasai–Virar: field observations, local desk research, design mappings, and product evidence.",
   },
@@ -57,8 +72,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-[#F8FAFC] text-[#0F172A] selection:bg-[#16A34A]/15 selection:text-[#0F172A] font-sans antialiased">
+    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${mukta.variable}`}>
+      <body className="min-h-dvh font-sans antialiased">
         {children}
       </body>
     </html>
