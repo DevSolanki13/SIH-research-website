@@ -1,6 +1,13 @@
 import React from "react";
-import { ClipboardCheck, ArrowRight, Check, X } from "lucide-react";
-import { ReportShell, ReportTitle, SectionHeading, SpecTable, TableHead } from "@/components/report/ReportShell";
+import { ClipboardCheck, ArrowRight, Check, X, Landmark } from "lucide-react";
+import {
+  ReportShell,
+  ReportTitle,
+  SectionHeading,
+  SpecTable,
+  TableHead,
+  SourceTag,
+} from "@/components/report/ReportShell";
 import { PhotoEvidence } from "@/components/report/PhotoEvidence";
 import {
   visit,
@@ -11,6 +18,17 @@ import {
   designBridge,
   recyclers,
   recyclerQuotes,
+  atAGlance,
+  nationalContext,
+  sourceTagNote,
+  unitEconomics,
+  platformEconomics,
+  impactMetrics,
+  impactMeasured,
+  sponsorFit,
+  afterSih,
+  existingPlayers,
+  type SourceTag as SourceTagName,
 } from "@/data/fieldVisit";
 
 export default function FieldVisitReport() {
@@ -20,6 +38,24 @@ export default function FieldVisitReport() {
     <ReportShell>
       <div className="space-y-5">
         <ReportTitle title={visit.title} subtitle={`${visit.shops.join(" · ")} · ${visit.area}`} date={visit.dateLabel} />
+
+        <div>
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-amber-700">What we found, at a glance</p>
+          <ul className="grid gap-px overflow-hidden rounded-xl bg-slate-200 ring-1 ring-slate-200 sm:grid-cols-2 lg:grid-cols-4">
+            {atAGlance.map((s) => (
+              <li key={s.figure} className="flex flex-col gap-2 bg-white px-4 py-4">
+                <span className="text-2xl font-bold tracking-tight text-slate-900">{s.figure}</span>
+                <span className="text-sm leading-snug text-slate-600">{s.label}</span>
+                <span className="mt-auto">
+                  <SourceTag tag={s.tag} />
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            <SourceTag tag="SOURCED" /> <span className="ml-1">{nationalContext}</span>
+          </p>
+        </div>
 
         <div className="flex gap-3 rounded-xl border-l-4 border-emerald-600 bg-emerald-50/70 px-4 py-4 text-sm leading-relaxed text-slate-700 sm:px-5">
           <ClipboardCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
@@ -182,6 +218,138 @@ export default function FieldVisitReport() {
               ))}
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <section>
+        <SectionHeading num={6} title="Unit Economics: What the Collector Gains, and Who Pays" kicker="Viability" />
+        <div className="grid gap-4 lg:grid-cols-5">
+          <div className="rounded-xl p-5 ring-1 ring-slate-200 sm:p-6 lg:col-span-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="text-sm font-bold text-emerald-800">The collector&rsquo;s arithmetic</h3>
+              <SourceTag tag="ESTIMATED" />
+            </div>
+            <p className="mt-3 rounded-lg bg-emerald-50 px-4 py-3 text-center font-mono text-[15px] font-bold text-emerald-900 ring-1 ring-emerald-200">
+              {unitEconomics.formula}
+            </p>
+            <dl className="mt-3 space-y-1 text-xs leading-relaxed text-slate-600">
+              {unitEconomics.terms.map((t) => (
+                <div key={t.k} className="flex gap-2">
+                  <dt className="w-4 shrink-0 font-mono font-bold text-slate-900">{t.k}</dt>
+                  <dd>{t.v}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-4 overflow-hidden rounded-lg ring-1 ring-slate-200">
+              <table className="w-full border-collapse text-left text-sm">
+                <TableHead cols={[{ label: "If the authorised rate is…" }, { label: "Net / month", className: "w-28 text-right" }]} />
+                <tbody>
+                  {unitEconomics.rows.map((r) => (
+                    <tr key={r.scenario} className="border-t border-slate-200 even:bg-slate-50/70">
+                      <td className="px-4 py-2.5 text-slate-700">{r.scenario}</td>
+                      <td className={`px-4 py-2.5 text-right font-mono font-bold ${r.loss ? "text-red-700" : "text-emerald-800"}`}>
+                        {r.net}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-slate-700">{unitEconomics.shopLine}</p>
+            <p className="mt-2 text-xs leading-relaxed text-slate-500">{unitEconomics.honesty}</p>
+          </div>
+
+          <div className="lg:col-span-2">
+            <div className="rounded-xl p-5 ring-1 ring-slate-200 sm:p-6">
+              <p className="text-[15px] leading-relaxed text-slate-700">
+                <strong className="text-slate-900">The field evidence behind it:</strong> recyclers agreed to pay{" "}
+                <strong className="text-emerald-800">₹1–2/kg extra</strong> for lots that arrive with geotagged proof.{" "}
+                <SourceTag tag="FIELD" />
+              </p>
+            </div>
+            <div className="mt-4">
+              <SpecTable head={["How the platform sustains itself", "Proposed"]} rows={platformEconomics} variant="brand" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionHeading num={7} title="Impact, With Every Number's Source" kicker="Social · economic · environmental" />
+        <div className="overflow-x-auto rounded-xl ring-1 ring-slate-200">
+          <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+            <TableHead
+              cols={[
+                { label: "Figure", className: "w-40" },
+                { label: "What it measures" },
+                { label: "Tag", className: "w-28" },
+                { label: "Source", className: "w-52" },
+              ]}
+            />
+            <tbody>
+              {impactMetrics.map((m) => (
+                <tr key={m.label} className="border-t border-slate-200 align-top even:bg-slate-50/70">
+                  <td className="px-4 py-3 font-mono font-bold text-slate-900">{m.figure}</td>
+                  <td className="px-4 py-3 text-slate-700">{m.label}</td>
+                  <td className="px-4 py-3">
+                    <SourceTag tag={m.tag} />
+                  </td>
+                  <td className="px-4 py-3 text-xs text-slate-500">{m.source}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-xs leading-relaxed text-slate-500">
+          {(Object.keys(sourceTagNote) as SourceTagName[]).map((t, i) => (
+            <span key={t}>
+              {i > 0 && " · "}
+              <strong className="text-slate-700">{t}</strong> = {sourceTagNote[t]}
+            </span>
+          ))}
+        </p>
+        <p className="mt-3 rounded-xl border-l-4 border-emerald-600 bg-emerald-50/70 px-4 py-3 text-sm leading-relaxed text-slate-700">
+          {impactMeasured}
+        </p>
+      </section>
+
+      <section>
+        <SectionHeading num={8} title="Who Runs It After SIH, and Who Else Is in This Space" kicker="Deployment & positioning" />
+        <div className="flex gap-3 rounded-xl border-l-4 border-amber-600 bg-amber-50/60 px-4 py-4 text-[15px] leading-relaxed text-slate-700 sm:px-5">
+          <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+          <div>
+            <p>
+              <strong className="text-slate-900">{sponsorFit.title}:</strong> {sponsorFit.body}
+            </p>
+            <p className="mt-2 text-xs text-slate-500">
+              <SourceTag tag="SOURCED" /> <span className="ml-1">{sponsorFit.source}</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 grid gap-4 lg:grid-cols-5">
+          <div className="lg:col-span-2">
+            <SpecTable head={["After SIH", "Who and how"]} rows={afterSih} />
+          </div>
+          <div className="overflow-x-auto rounded-xl ring-1 ring-slate-200 lg:col-span-3">
+            <table className="w-full min-w-[520px] border-collapse text-left text-sm">
+              <TableHead cols={[{ label: "Existing player", className: "w-40" }, { label: "What it does" }, { label: "Where Bhaav differs" }]} />
+              <tbody>
+                {existingPlayers.map((p) => (
+                  <tr
+                    key={p.name}
+                    className={`border-t border-slate-200 align-top ${p.name === "Bhaav" ? "bg-emerald-50" : "even:bg-slate-50/70"}`}
+                  >
+                    <th scope="row" className={`px-4 py-3 font-semibold ${p.name === "Bhaav" ? "text-emerald-800" : "text-slate-900"}`}>
+                      {p.name}
+                    </th>
+                    <td className="px-4 py-3 text-slate-600">{p.what}</td>
+                    <td className="px-4 py-3 text-slate-700">{p.gap}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     </ReportShell>
