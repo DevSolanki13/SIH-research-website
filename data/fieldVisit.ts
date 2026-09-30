@@ -1,9 +1,14 @@
 /**
  * Content for the Bhaav field-visit report.
  *
- * Source of truth: the team's "Research and References" slide (SIH 2026 idea
- * deck) and the GPS Map Camera stamps on the field photos. Do not add figures
- * here that are not on the slide or in a photo stamp.
+ * Sources of truth:
+ * - the team's "Research and References" slide (SIH 2026 idea deck) and the
+ *   GPS Map Camera stamps on the field photos;
+ * - the team's STRATEGY.md for the unit-economics model, sponsor and
+ *   existing-player positioning;
+ * - the official or published sources named next to each metric.
+ * Every figure carries a tag saying where it comes from. Do not add a figure
+ * without one.
  */
 
 export const visit = {
@@ -117,8 +122,8 @@ export const designBridge: {
     problem: "Bulk sales need formal data",
     observed: "There is zero EPR paperwork, and documenting many unrecorded micro-lots by hand isn't practical.",
     solution: "Pooling + batch record",
-    how: "Verified receipts roll up into one batch manifest shaped for recycler intake and CPCB EPR formats.",
-    status: "Building",
+    how: "Verified receipts roll up into one batch manifest shaped for recycler intake and CPCB EPR formats, and the recycler's truck weight is checked against the receipts inside it.",
+    status: "Built in app",
   },
   {
     problem: "Where did the material go?",
@@ -144,4 +149,94 @@ export const recyclerQuotes = [
   { quote: "Our buying reference is Metal mandi.", who: "Aman Trading Co." },
   { quote: "Our prices update daily and come on our WhatsApp group (informal).", who: "New India Scrap Traders" },
   { quote: "The recyclers agreed to give ₹1–2/kg extra on verified lots.", who: null },
+];
+
+/** Where a number comes from. */
+export type SourceTag = "VERIFIED" | "FIELD" | "SOURCED" | "ESTIMATED";
+
+export const sourceTagNote: Record<SourceTag, string> = {
+  VERIFIED: "our own check against official data",
+  FIELD: "reported to us on the 29 Sept field visit",
+  SOURCED: "published source, named",
+  ESTIMATED: "modelled, with the assumption stated",
+};
+
+export const atAGlance: { figure: string; label: string; tag: SourceTag }[] = [
+  { figure: "4 of 7", label: "recyclers we contacted had a lapsed MPCB authorisation, and a collector has no way to tell", tag: "VERIFIED" },
+  { figure: "74 of 161", label: "MPCB-listed e-waste recyclers and dismantlers are valid today. Bhaav shows only these", tag: "VERIFIED" },
+  { figure: "₹1–2/kg", label: "extra that recyclers agreed to pay for verified, geotagged lots", tag: "FIELD" },
+  { figure: "0", label: "records kept at the shops we visited: every trade is verbal, with no EPR paperwork", tag: "FIELD" },
+];
+
+export const nationalContext =
+  "India generated 14.14 lakh MT of e-waste in 2025-26 and recycled 9.79 lakh MT (Lok Sabha). Industry estimates put about three-quarters in the informal chain. The figures disagree because the first mile, where a kabadiwala sells, is never recorded.";
+
+/**
+ * Unit economics (STRATEGY.md §10), recomputed with the field-verified bonus.
+ * Net ₹/month = V × (g + b − t). V = 60 kg/month is assumed: e-waste is about
+ * 10% of what a kabadiwala collects, at about 20 kg a day over 30 days.
+ * b = ₹1.5/kg, the midpoint of the ₹1–2/kg recyclers agreed to. t = 0 with a
+ * Bhaav Point or pickup.
+ */
+export const unitEconomics = {
+  formula: "Net ₹ per month = V × (g + b − t)",
+  terms: [
+    { k: "V", v: "kg of e-waste the collector sells per month (assumed 60)" },
+    { k: "g", v: "authorised base rate minus what their current buyer pays (field data decides this)" },
+    { k: "b", v: "verified-lot bonus: ₹1.5/kg, the midpoint of the ₹1–2/kg recyclers agreed to" },
+    { k: "t", v: "extra travel cost per kg (0 with a Bhaav Point or pickup)" },
+  ],
+  rows: [
+    { scenario: "Authorised rate ₹10/kg below the informal buyer", net: "−₹510", loss: true },
+    { scenario: "The same rate", net: "+₹90", loss: false },
+    { scenario: "Authorised rate ₹10/kg above", net: "+₹690", loss: false },
+    { scenario: "₹25/kg above (the observed NGO uplift, ₹40 → ₹65)", net: "+₹1,590", loss: false },
+  ],
+  shopLine:
+    "For a Bhaav Point (partner scrap shop) moving about 1,800 kg a month, the verified-lot bonus alone is worth about ₹2,700 a month at the same base rate.",
+  honesty:
+    "We show the losing row on purpose. When the authorised rate is lower, the bonus alone does not close the gap. That is why pickup, Bhaav Points and household leads exist. Field data tells us which row a district is in.",
+};
+
+export const platformEconomics: { k: string; v: string }[] = [
+  { k: "Who pays", v: "Recyclers pay a proposed ₹1.5 per verified kg, for audit-ready purchase evidence they cannot get today" },
+  { k: "Running cost", v: "About ₹30,000 per district per month: cloud and SMS about ₹10,000, one field coordinator about ₹20,000" },
+  { k: "Break-even", v: "About 20 tonnes verified per district per month" },
+  { k: "Other income", v: "Producer provenance fees, CSR collection drives, public funding as digital public infrastructure" },
+  { k: "Never pays", v: "The collector and the household" },
+];
+
+export const impactMetrics: { figure: string; label: string; tag: SourceTag; source: string }[] = [
+  { figure: "4 of 7", label: "recyclers we contacted had lapsed authorisations", tag: "VERIFIED", source: "MPCB register, fetched 31 Aug 2026" },
+  { figure: "161 → 74", label: "MPCB-listed recyclers → valid today (87 lapsed, hidden in the app)", tag: "VERIFIED", source: "MPCB register, fetched 31 Aug 2026" },
+  { figure: "₹1–2/kg", label: "extra recyclers agreed to pay for verified lots", tag: "FIELD", source: "Recycler calls, Sept 2026" },
+  { figure: "~1,800 kg", label: "a month at one Vasai shop, which waits 2–4 weeks to sell in bulk", tag: "FIELD", source: "Field visit, 29 Sept 2026" },
+  { figure: "~80%", label: "of payments at the shops already go by UPI", tag: "FIELD", source: "Field visit, 29 Sept 2026" },
+  { figure: "₹40 → ₹65/kg", label: "when an NGO linked waste pickers to a formal buyer", tag: "SOURCED", source: "Mongabay India, May 2026" },
+  { figure: "14.14 / 9.79", label: "lakh MT of e-waste generated / recycled in India, 2025-26", tag: "SOURCED", source: "Lok Sabha" },
+  { figure: "−₹510 to +₹1,590", label: "a collector's monthly change, depending on the rate gap", tag: "ESTIMATED", source: "Model above, V = 60 kg/month" },
+  { figure: "~720 kg", label: "a year of e-waste per collector reaching an authorised facility instead of open burning or acid baths", tag: "ESTIMATED", source: "60 kg/month × 12" },
+];
+
+export const impactMeasured =
+  "Once live, the app reports these from dual-signed receipts, not estimates: kilograms that reached an authorised recycler by category, net ₹/kg against each collector's own baseline, the dispute rate, and the median time per lot.";
+
+export const sponsorFit = {
+  title: "Why this matters to JNARDDC",
+  body: "JNARDDC is the Ministry of Mines' Project Monitoring Agency for the ₹1,500 crore Critical Mineral Recycling Incentive Scheme, and its nodal agency for circular economy. The scheme needs feedstock, and e-waste feedstock starts with the kabadiwala. Bhaav's dual-signed receipts give the first-mile record the scheme cannot otherwise see: what was paid, where the material went, and which authorised facility received it.",
+  source: "pmindia.gov.in (Cabinet, 3 Sep 2025) · ncmm.jnarddc.gov.in",
+};
+
+export const afterSih: { k: string; v: string }[] = [
+  { k: "Oversight", v: "JNARDDC, as monitoring agency and circular-economy nodal agency" },
+  { k: "Data owner", v: "MPCB, whose authorisation register Bhaav already reads on a schedule" },
+  { k: "Pilot", v: "One district, three authorised recyclers, collectors reached through a waste-picker collective" },
+  { k: "Hosting", v: "A managed API, a static web console and an Android APK. No field hardware" },
+];
+
+export const existingPlayers: { name: string; what: string; gap: string }[] = [
+  { name: "Recykal.Market, MetalMandi", what: "List rates for businesses with a smartphone, a ledger and a GST number", gap: "The first-mile seller is not their user, and the first-mile record is worth nothing there" },
+  { name: "Kabadiwalla Connect", what: "Links households to scrap dealers", gap: "Works on the household side of the trade; Bhaav works on the collector's side of the sale" },
+  { name: "NGO bridges (e.g. Chintan)", what: "Link waste pickers to formal buyers; rates moved ₹40 → ₹65/kg", gap: "Works, but only inside a cohort the NGO can reach" },
+  { name: "Bhaav", what: "Onboards the person below all of them: icon-first, voice in Marathi and Hindi, works offline", gap: "Routes only to recyclers whose MPCB authorisation is valid today, with a two-signature receipt" },
 ];
