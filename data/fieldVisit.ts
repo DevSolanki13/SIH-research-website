@@ -4,15 +4,13 @@
  * Sources of truth:
  * - the team's "Research and References" slide (SIH 2026 idea deck) and the
  *   GPS Map Camera stamps on the field photos;
- * - the team's STRATEGY.md for the unit-economics model, sponsor and
- *   existing-player positioning;
- * - the official or published sources named next to each metric.
- * Every figure carries a tag saying where it comes from. Do not add a figure
- * without one.
+ * - the team's notes from the 3 Oct visits in Virar West;
+ * - the MPCB authorised register for recycler status.
  */
 
 export const visit = {
   title: "Field Visit & Scrap Dealer Ground Research Report",
+  summary: "3 field visits · collectors, an aggregator and recyclers · Vasai West & Virar West",
   shops: ["Jai Bajrang Bali Metal Mart", "Gokul Old Electronic Buyer"],
   area: "Vasai West, Vasai–Virar, Maharashtra",
   dateLabel: "29 Sept 2026",
@@ -36,11 +34,13 @@ export const marketProfile: { k: string; v: string; tone?: Tone }[] = [
   { k: "Records kept", v: "None: every trade is verbal", tone: "stop" },
   { k: "EPR paperwork", v: "Zero", tone: "stop" },
   { k: "Volume", v: "~1,800 kg a month, sold as a bulk lot" },
-  { k: "Stock cycle", v: "Light items don't sell daily; stock waits 2–4 weeks" },
+  { k: "Stock cycle", v: "Light items don't sell daily; stock waits 2–4 weeks; a recycler wants 1 tonne" },
   { k: "Platform readiness", v: "Open to live prices and direct recycler access; found the app easy to use", tone: "go" },
 ];
 
-export const photos = [
+export type Photo = { src: string; tag: string; time?: string; place: string; caption: string };
+
+export const photos: Photo[] = [
   {
     src: "/images/field/field-interview-2.jpg",
     tag: "Field interview",
@@ -76,6 +76,122 @@ export const findingsNarrative = [
   "The trade runs in three tiers, from door-to-door hawkers to small aggregators to wholesalers. No records are kept at any step: every trade is verbal, and there is zero EPR paperwork. Yet about 80% of payments already go by UPI, so the phone is already part of the transaction.",
   "Light items don't sell daily. Stock waits 2–4 weeks until it makes up a bulk lot, around 1,800 kg a month. The dealers were open to a platform that gives them live prices and direct access to authorised recyclers, and after trying the Bhaav app on the spot they found it easy to use.",
 ];
+
+/** Visits 2 and 3, both on 3 Oct 2026 in Virar West. */
+export const collectorVisit = {
+  dateLabel: "3 Oct 2026",
+  specs: [
+    { k: "Visit date", v: "3 Oct 2026" },
+    { k: "Who we met", v: "Three collectors, including Sai Scrap Metal Mart (Tirupati Nagar) and a scrap shop in Bolinj" },
+    { k: "Location", v: "Tirupati Nagar and Bolinj, Virar West 401303" },
+    { k: "Investigation focus", v: "Who they sell to, how they price, and how they feel about records" },
+  ] as { k: string; v: string; tone?: Tone }[],
+  profile: [
+    { k: "Who buys from them", v: "An aggregator on the Vasai highway; its carts collect from the shop's door" },
+    { k: "Lot size", v: "5–10 kg at a time" },
+    { k: "Volume", v: "Two of them each sell ~10 kg a week" },
+    { k: "Cart collectors", v: "Most wouldn't talk to us; many work for one shop", tone: "stop" },
+    { k: "Price reference", v: "MetalMandi: ₹980/kg paid when MetalMandi shows ₹1,000", tone: "go" },
+    { k: "Informal share", v: "~70% of the work is informal, ~30% formal", tone: "stop" },
+    { k: "Wire", v: "Burnt before selling: 1 kg of 4 mm wire yields ~600 g of metal", tone: "stop" },
+    { k: "Licence", v: "A Gumasta (shop) licence from the municipal council" },
+    { k: "Would use Bhaav if", v: "It got them the MetalMandi rate", tone: "go" },
+  ] as { k: string; v: string; tone?: Tone }[],
+  photos: [
+    {
+      src: "/images/field/virar/sai-scrap-metal-mart.jpg",
+      tag: "Collector",
+      place: "Tirupati Nagar Phase 2, Virar West",
+      caption: "Sai Scrap Metal Mart, a non-ferrous metal merchant: crushed cans, cardboard and sacks waiting at the door.",
+    },
+  ] as Photo[],
+  prices: [
+    { item: "Fridge, single door", rate: "₹1,000" },
+    { item: "Fridge, double door", rate: "₹1,500" },
+    { item: "Copper from burnt wire", rate: "₹980/kg (MetalMandi ₹1,000)" },
+  ],
+  findings: [
+    {
+      title: "They sell small, to whoever comes to the door",
+      body: "The Bolinj shop sells 5–10 kg at a time to an aggregator on the Vasai highway, whose carts pick up at the shop.",
+    },
+    {
+      title: "Price is the pull, and the reference is MetalMandi",
+      body: "The Bolinj shop follows MetalMandi: when it shows ₹1,000/kg for copper, he sells at about ₹980. He said he would use Bhaav if it got him the MetalMandi rate. Wire is burnt to recover the copper, about 600 g from 1 kg of 4 mm wire.",
+    },
+    {
+      title: "Their licence is a Gumasta from the municipal council",
+      body: "The shop runs on a Gumasta (Shops and Establishments) licence issued by the nagarpalika. That registers it as a business, not as an MPCB-authorised e-waste handler, so nothing it buys or sells shows up in the e-waste system.",
+    },
+    {
+      title: "Stolen goods reach them, and the shop takes the blame",
+      body: "The collectors put their work at about 70% informal and 30% formal. People sometimes sell them goods that turn out to be stolen, claiming they are from their own home. The shop buys on the seller's word, and if the item is later traced, the shop is the one questioned.",
+    },
+    {
+      title: "A record of every sale feels like exposure, not protection",
+      body: "If an app stores the seller's number, the shop's details, photos and a receipt, they fear that record makes them easier to blame. Two of the shops said they won't use the app for this reason. They would be more comfortable with a system that protects them and helps verify where material came from, not one that only records every sale.",
+    },
+  ],
+};
+
+export const aggregatorVisit = {
+  dateLabel: "3 Oct 2026",
+  specs: [
+    { k: "Visit date", v: "3 Oct 2026, 11:01 – 11:16 AM" },
+    { k: "Who we met", v: "One aggregator: a scrap dealer with a large yard on Datt Mandir Rd" },
+    { k: "Location", v: "Doghar Pada, Sheetal Nagar, Virar West 401303" },
+    { k: "GPS (photo stamps)", v: "19.4540° – 19.4541° N, 72.8070° – 72.8071° E" },
+    { k: "Investigation focus", v: "How stock moves from collectors up to recyclers" },
+  ] as { k: string; v: string; tone?: Tone }[],
+  profile: [
+    { k: "Recycler contract", v: "100 t a year with one recycler" },
+    { k: "If the target is missed", v: "The recycler applies a cut (kattai) on the rate", tone: "stop" },
+    { k: "Lot size", v: "400–500 kg lots" },
+    { k: "Who sells to him", v: "Cart collectors, who sell to anyone who will buy" },
+    { k: "Formal buyers nearby", v: "Did not know of any dealer in Vasai he could sell to", tone: "stop" },
+  ] as { k: string; v: string; tone?: Tone }[],
+  photos: [
+    {
+      src: "/images/field/virar/dealer-interview-1.jpg",
+      tag: "Aggregator interview",
+      time: "11:01 AM",
+      place: "Doghar Pada, Virar West",
+      caption: "Team interviewing the aggregator at his counter about who he buys from and who he sells to.",
+    },
+    {
+      src: "/images/field/virar/dealer-interview-2.jpg",
+      tag: "Aggregator interview",
+      time: "11:02 AM",
+      place: "Datt Mandir Rd, Virar West",
+      caption: "The aggregator describing his yearly contract with a recycler.",
+    },
+    {
+      src: "/images/field/virar/scrap-yard.jpg",
+      tag: "Stock",
+      time: "11:05 AM",
+      place: "Datt Mandir Rd, Virar West",
+      caption: "Mixed stock waiting behind the shop: metal frames, wire, sacks and appliance parts.",
+    },
+    {
+      src: "/images/field/virar/shop-frontage.jpg",
+      tag: "Yard",
+      time: "11:16 AM",
+      place: "Datt Mandir Rd, Virar West",
+      caption: "The yard from the street: drums, grilles and scrap stacked up to the roof line.",
+    },
+  ] as Photo[],
+  prices: [{ item: "TV, sold to a repair shop", rate: "₹200" }],
+  findings: [
+    {
+      title: "Aggregators work on yearly contracts, with a cut for missing them",
+      body: "He has a 100 t a year contract with his recycler. If the target is missed, the recycler applies a deduction (kattai) on the rate. Stock moves up in 400–500 kg lots.",
+    },
+    {
+      title: "Below him, material goes wherever it pays",
+      body: "Cart collectors sell to anyone who will buy, and a TV can go to a repair shop for ₹200. He did not know of any dealer in Vasai he could sell to.",
+    },
+  ],
+};
 
 export const bridgeActors = [
   { num: "01", name: "Informal collector", desc: "Door-to-door hawkers and scrap pickers" },
@@ -132,6 +248,13 @@ export const designBridge: {
     how: "When an authorised recycler receives the batch, an arrival confirmation flows back down the chain.",
     status: "Built in app",
   },
+  {
+    problem: "Fear of stolen-goods blame",
+    observed: "Two shops won't use the app: they fear a digital record of each sale makes them the ones questioned if a seller's goods turn out to be stolen (3 Oct).",
+    solution: "Seller declaration, private receipts",
+    how: "Before signing, the seller confirms the scrap is theirs, which is proof the shop bought in good faith. Public receipts never name the seller or the shop.",
+    status: "Built in app",
+  },
 ];
 
 export const recyclers: { name: string; kind: string; city: string; valid: boolean; status: string }[] = [
@@ -146,97 +269,7 @@ export const recyclers: { name: string; kind: string; city: string; valid: boole
 
 export const recyclerQuotes = [
   { quote: "We buy only in tonnes, not a few kilos.", who: "Lilashana Sales" },
-  { quote: "Our buying reference is Metal mandi.", who: "Aman Trading Co." },
-  { quote: "Our prices update daily and come on our WhatsApp group (informal).", who: "New India Scrap Traders" },
-  { quote: "The recyclers agreed to give ₹1–2/kg extra on verified lots.", who: null },
-];
-
-/** Where a number comes from. */
-export type SourceTag = "VERIFIED" | "FIELD" | "SOURCED" | "ESTIMATED";
-
-export const sourceTagNote: Record<SourceTag, string> = {
-  VERIFIED: "our own check against official data",
-  FIELD: "reported to us on the 29 Sept field visit",
-  SOURCED: "published source, named",
-  ESTIMATED: "modelled, with the assumption stated",
-};
-
-export const atAGlance: { figure: string; label: string; tag: SourceTag }[] = [
-  { figure: "4 of 7", label: "recyclers we contacted had a lapsed MPCB authorisation, and a collector has no way to tell", tag: "VERIFIED" },
-  { figure: "74 of 161", label: "MPCB-listed e-waste recyclers and dismantlers are valid today. Bhaav shows only these", tag: "VERIFIED" },
-  { figure: "₹1–2/kg", label: "extra that recyclers agreed to pay for verified, geotagged lots", tag: "FIELD" },
-  { figure: "0", label: "records kept at the shops we visited: every trade is verbal, with no EPR paperwork", tag: "FIELD" },
-];
-
-export const nationalContext =
-  "India generated 14.14 lakh MT of e-waste in 2025-26 and recycled 9.79 lakh MT (Lok Sabha). Industry estimates put about three-quarters in the informal chain. The figures disagree because the first mile, where a kabadiwala sells, is never recorded.";
-
-/**
- * Unit economics (STRATEGY.md §10), recomputed with the field-verified bonus.
- * Net ₹/month = V × (g + b − t). V = 60 kg/month is assumed: e-waste is about
- * 10% of what a kabadiwala collects, at about 20 kg a day over 30 days.
- * b = ₹1.5/kg, the midpoint of the ₹1–2/kg recyclers agreed to. t = 0 with a
- * Bhaav Point or pickup.
- */
-export const unitEconomics = {
-  formula: "Net ₹ per month = V × (g + b − t)",
-  terms: [
-    { k: "V", v: "kg of e-waste the collector sells per month (assumed 60)" },
-    { k: "g", v: "authorised base rate minus what their current buyer pays (field data decides this)" },
-    { k: "b", v: "verified-lot bonus: ₹1.5/kg, the midpoint of the ₹1–2/kg recyclers agreed to" },
-    { k: "t", v: "extra travel cost per kg (0 with a Bhaav Point or pickup)" },
-  ],
-  rows: [
-    { scenario: "Authorised rate ₹10/kg below the informal buyer", net: "−₹510", loss: true },
-    { scenario: "The same rate", net: "+₹90", loss: false },
-    { scenario: "Authorised rate ₹10/kg above", net: "+₹690", loss: false },
-    { scenario: "₹25/kg above (the observed NGO uplift, ₹40 → ₹65)", net: "+₹1,590", loss: false },
-  ],
-  shopLine:
-    "For a Bhaav Point (partner scrap shop) moving about 1,800 kg a month, the verified-lot bonus alone is worth about ₹2,700 a month at the same base rate.",
-  honesty:
-    "We show the losing row on purpose. When the authorised rate is lower, the bonus alone does not close the gap. That is why pickup, Bhaav Points and household leads exist. Field data tells us which row a district is in.",
-};
-
-export const platformEconomics: { k: string; v: string }[] = [
-  { k: "Who pays", v: "Recyclers pay a proposed ₹1.5 per verified kg, for audit-ready purchase evidence they cannot get today" },
-  { k: "Running cost", v: "About ₹30,000 per district per month: cloud and SMS about ₹10,000, one field coordinator about ₹20,000" },
-  { k: "Break-even", v: "About 20 tonnes verified per district per month" },
-  { k: "Other income", v: "Producer provenance fees, CSR collection drives, public funding as digital public infrastructure" },
-  { k: "Never pays", v: "The collector and the household" },
-];
-
-export const impactMetrics: { figure: string; label: string; tag: SourceTag; source: string }[] = [
-  { figure: "4 of 7", label: "recyclers we contacted had lapsed authorisations", tag: "VERIFIED", source: "MPCB register, fetched 31 Aug 2026" },
-  { figure: "161 → 74", label: "MPCB-listed recyclers → valid today (87 lapsed, hidden in the app)", tag: "VERIFIED", source: "MPCB register, fetched 31 Aug 2026" },
-  { figure: "₹1–2/kg", label: "extra recyclers agreed to pay for verified lots", tag: "FIELD", source: "Recycler calls, Sept 2026" },
-  { figure: "~1,800 kg", label: "a month at one Vasai shop, which waits 2–4 weeks to sell in bulk", tag: "FIELD", source: "Field visit, 29 Sept 2026" },
-  { figure: "~80%", label: "of payments at the shops already go by UPI", tag: "FIELD", source: "Field visit, 29 Sept 2026" },
-  { figure: "₹40 → ₹65/kg", label: "when an NGO linked waste pickers to a formal buyer", tag: "SOURCED", source: "Mongabay India, May 2026" },
-  { figure: "14.14 / 9.79", label: "lakh MT of e-waste generated / recycled in India, 2025-26", tag: "SOURCED", source: "Lok Sabha" },
-  { figure: "−₹510 to +₹1,590", label: "a collector's monthly change, depending on the rate gap", tag: "ESTIMATED", source: "Model above, V = 60 kg/month" },
-  { figure: "~720 kg", label: "a year of e-waste per collector reaching an authorised facility instead of open burning or acid baths", tag: "ESTIMATED", source: "60 kg/month × 12" },
-];
-
-export const impactMeasured =
-  "Once live, the app reports these from dual-signed receipts, not estimates: kilograms that reached an authorised recycler by category, net ₹/kg against each collector's own baseline, the dispute rate, and the median time per lot.";
-
-export const sponsorFit = {
-  title: "Why this matters to JNARDDC",
-  body: "JNARDDC is the Ministry of Mines' Project Monitoring Agency for the ₹1,500 crore Critical Mineral Recycling Incentive Scheme, and its nodal agency for circular economy. The scheme needs feedstock, and e-waste feedstock starts with the kabadiwala. Bhaav's dual-signed receipts give the first-mile record the scheme cannot otherwise see: what was paid, where the material went, and which authorised facility received it.",
-  source: "pmindia.gov.in (Cabinet, 3 Sep 2025) · ncmm.jnarddc.gov.in",
-};
-
-export const afterSih: { k: string; v: string }[] = [
-  { k: "Oversight", v: "JNARDDC, as monitoring agency and circular-economy nodal agency" },
-  { k: "Data owner", v: "MPCB, whose authorisation register Bhaav already reads on a schedule" },
-  { k: "Pilot", v: "One district, three authorised recyclers, collectors reached through a waste-picker collective" },
-  { k: "Hosting", v: "A managed API, a static web console and an Android APK. No field hardware" },
-];
-
-export const existingPlayers: { name: string; what: string; gap: string }[] = [
-  { name: "Recykal.Market, MetalMandi", what: "List rates for businesses with a smartphone, a ledger and a GST number", gap: "The first-mile seller is not their user, and the first-mile record is worth nothing there" },
-  { name: "Kabadiwalla Connect", what: "Links households to scrap dealers", gap: "Works on the household side of the trade; Bhaav works on the collector's side of the sale" },
-  { name: "NGO bridges (e.g. Chintan)", what: "Link waste pickers to formal buyers; rates moved ₹40 → ₹65/kg", gap: "Works, but only inside a cohort the NGO can reach" },
-  { name: "Bhaav", what: "Onboards the person below all of them: icon-first, voice in Marathi and Hindi, works offline", gap: "Routes only to recyclers whose MPCB authorisation is valid today, with a two-signature receipt" },
+  { quote: "Our buying reference is MetalMandi.", who: "Aman Trading Co." },
+  { quote: "Our prices update daily on our WhatsApp group.", who: "New India Scrap Traders" },
+  { quote: "Recyclers agreed to give ₹1–2/kg extra on verified lots with geotag proof.", who: null },
 ];

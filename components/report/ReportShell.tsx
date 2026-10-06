@@ -20,12 +20,12 @@ export function ReportShell({ children }: { children: React.ReactNode }) {
           <PrintButton />
         </header>
 
-        <main className="space-y-12 px-5 py-8 sm:px-10 sm:py-10">{children}</main>
+        <main className="space-y-6 px-5 py-8 sm:px-10 sm:py-10">{children}</main>
 
         <footer className="rounded-b-2xl border-t border-slate-200 bg-slate-50 px-5 py-6 text-center sm:px-10">
           <p className="font-deva text-sm font-bold text-amber-700">योग्य भाव, पक्की पावती</p>
           <p className="mt-1 text-xs text-slate-500">
-            Bhaav · Field Visit &amp; Ground Research Documentation · Vasai–Virar · 29 Sept 2026
+            Bhaav · Field Visit &amp; Ground Research Documentation · Vasai–Virar · 29 Sept &amp; 3 Oct 2026
           </p>
         </footer>
       </div>
